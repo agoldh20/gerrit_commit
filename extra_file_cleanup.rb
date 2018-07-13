@@ -1,7 +1,7 @@
 require 'find'
 
 class CleanUp
-  attr_accessor :filtered_results, :confirm
+  attr_accessor :filtered_results, :confirm, :status
 
   def find_results
     text_file_paths = []
@@ -27,7 +27,7 @@ class CleanUp
       puts "======== Delete These Files? 'Yes' to Confirm, other to Cancel ========"
       @confirm = gets.chomp.downcase
     else
-      puts "No Extra Files Found"
+      @status = "No Extra Files Found"
     end
   end
 
@@ -35,13 +35,14 @@ class CleanUp
     @filtered_results.each do |result|
       File.delete(result)
     end
+    @status = "Clean Up Complete"
   end
 
   def run
     find_results
     results_found
     delete_files if @confirm == "yes"
-    puts "Clean Up complete, Have a good day!"
+    puts "#{@status}, Have a good day!"
   end
 end
 
