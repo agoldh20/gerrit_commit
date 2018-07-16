@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'mechanize'
 require 'figaro'
-Figaro.application = Figaro::Application.new(environment: "production", path: "/home/goldwate/Desktop/side_projects/ruby/creds.yml")
+Figaro.application = Figaro::Application.new(environment: "production", path: "/Users/Adam/Desktop/Projects/Ruby/test_clock_in/creds.yml")
 Figaro.load
 
 agent = Mechanize.new
@@ -18,6 +18,18 @@ time_clock_page = agent.get('https://hr.ad.here.com/psc/hrprod/EMPLOYEE/HRMS/c/T
 
 time_clock_form = time_clock_page.form('win0')
 
-dropbox = time_clock_form.search("[@id='TL_RPTD_TIME_PUNCH_TYPE$0']")
+dropdown = time_clock_form.search("[@id='TL_RPTD_TIME_PUNCH_TYPE$0']")
 
-pp time_clock_page
+clock_in = dropdown.search("[@value='1']")
+clock_out = dropdown.search("[@value='2']")
+
+clock_in.at('option')['selected'] = 'selected'
+clock_out.at('option')['selected'] = ''
+
+
+# pp login_page
+# puts "======================================"
+puts "In: #{clock_in.attr('selected')}"
+puts "Out: #{clock_out.attr('selected')}"
+
+agent.submit(time_clock_form)
