@@ -99,6 +99,8 @@ class CommitMessage
 
     if @filtered_results.count == 1
       happy_message
+    elsif @filtered_results.count == 0
+      puts "No Files Found, have you run the Convert to KML tool??????"
     else
       sad_message
     end
